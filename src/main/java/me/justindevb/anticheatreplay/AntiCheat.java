@@ -1,6 +1,5 @@
 package me.justindevb.anticheatreplay;
 
-
 import me.justindevb.anticheatreplay.listeners.*;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
@@ -8,10 +7,30 @@ import org.bukkit.plugin.Plugin;
 import java.util.function.Function;
 
 public enum AntiCheat {
-	VULCAN("Vulcan","Vulcan", null, VulcanListener::new),
-	SPARTAN("Spartan", "Spartan", null, SpartanListener::new),
-	MATRIX("Matrix", "Matrix", null, MatrixListener::new),
-	GODSEYE("GodsEye", "GodsEye", null, GodsEyeListener::new),
+	VULCAN("Vulcan", "Vulcan", null, new Function<AntiCheatReplay, ListenerBase>() {
+		@Override
+		public ListenerBase apply(AntiCheatReplay antiCheatReplay) {
+			return new VulcanListener(antiCheatReplay);
+		}
+	}),
+	SPARTAN("Spartan", "Spartan", null, new Function<AntiCheatReplay, ListenerBase>() {
+		@Override
+		public ListenerBase apply(AntiCheatReplay antiCheatReplay) {
+			return new SpartanListener(antiCheatReplay);
+		}
+	}),
+	MATRIX("Matrix", "Matrix", null, new Function<AntiCheatReplay, ListenerBase>() {
+		@Override
+		public ListenerBase apply(AntiCheatReplay antiCheatReplay) {
+			return new MatrixListener(antiCheatReplay);
+		}
+	}),
+	GODSEYE("GodsEye", "GodsEye", null, new Function<AntiCheatReplay, ListenerBase>() {
+		@Override
+		public ListenerBase apply(AntiCheatReplay antiCheatReplay) {
+			return new GodsEyeListener(antiCheatReplay);
+		}
+	}),
 	KAURI("Kauri", "Kauri", new Function<AntiCheatReplay, Boolean>() {
 		@Override
 		public Boolean apply(AntiCheatReplay antiCheatReplay) {
@@ -28,13 +47,48 @@ public enum AntiCheat {
 			antiCheatReplay.log("Kauri detected, enabling support...", false);
 			return true;
 		}
-	}, KauriListener::new),
-	KARHU("Karhu", "KarhuLoader", null, KarhuListener::new),
-	THEMIS("Themis", "Themis", null, ThemisListener::new),
-	SOAROMA("Soaroma", "SoaromaSAC", null, SoaromaListener::new),
-	FLAPPY("FlappyAC", "FlappyAnticheat", null, FlappyACListener::new),
-	ARTEMIS("Artemis", "Loader", null, ArtemisListener::new),
-	ANTICHEATRELOADED("AntiCheatReloaded", "AntiCheatReloaded", null, AntiCheatReloadedListener::new);
+	}, new Function<AntiCheatReplay, ListenerBase>() {
+		@Override
+		public ListenerBase apply(AntiCheatReplay antiCheatReplay) {
+			return new KauriListener(antiCheatReplay);
+		}
+	}),
+	KARHU("Karhu", "KarhuLoader", null, new Function<AntiCheatReplay, ListenerBase>() {
+		@Override
+		public ListenerBase apply(AntiCheatReplay antiCheatReplay) {
+			return new KarhuListener(antiCheatReplay);
+		}
+	}),
+	THEMIS("Themis", "Themis", null, new Function<AntiCheatReplay, ListenerBase>() {
+		@Override
+		public ListenerBase apply(AntiCheatReplay antiCheatReplay) {
+			return new ThemisListener(antiCheatReplay);
+		}
+	}),
+	SOAROMA("Soaroma", "SoaromaSAC", null, new Function<AntiCheatReplay, ListenerBase>() {
+		@Override
+		public ListenerBase apply(AntiCheatReplay antiCheatReplay) {
+			return new SoaromaListener(antiCheatReplay);
+		}
+	}),
+	FLAPPY("FlappyAC", "FlappyAnticheat", null, new Function<AntiCheatReplay, ListenerBase>() {
+		@Override
+		public ListenerBase apply(AntiCheatReplay antiCheatReplay) {
+			return new FlappyACListener(antiCheatReplay);
+		}
+	}),
+	ARTEMIS("Artemis", "Loader", null, new Function<AntiCheatReplay, ListenerBase>() {
+		@Override
+		public ListenerBase apply(AntiCheatReplay antiCheatReplay) {
+			return new ArtemisListener(antiCheatReplay);
+		}
+	}),
+	ANTICHEATRELOADED("AntiCheatReloaded", "AntiCheatReloaded", null, new Function<AntiCheatReplay, ListenerBase>() {
+		@Override
+		public ListenerBase apply(AntiCheatReplay antiCheatReplay) {
+			return new AntiCheatReloadedListener(antiCheatReplay);
+		}
+	});
 	private final String name;
 	private final String pluginName;
 	private final Function<AntiCheatReplay, Boolean> checker;
