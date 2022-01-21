@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.*;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
@@ -144,10 +145,7 @@ public class AntiCheatReplay extends JavaPlugin {
 		final int pluginId = 13402;
 		Metrics metrics = new Metrics(this, pluginId);
 
-		for (AntiCheat antiCheat : activeListeners.keySet()) {
-			metrics.addCustomChart(new SimplePie("anticheat-" + antiCheat.getName().toLowerCase(Locale.ROOT), antiCheat::getName));
-		};
-
+		metrics.addCustomChart(new SimplePie("anticheat", () -> activeListeners.keySet().stream().map(AntiCheat::getName).collect(Collectors.joining("-"))));
 	}
 
 	/**
